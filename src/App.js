@@ -2,7 +2,7 @@ import './App.css';
 import "./components/navbar.css"
 
 import Navbar from "./components/Navbar"
-import Home from "./components/pages/Home"
+import Home from "./components/Home"
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';

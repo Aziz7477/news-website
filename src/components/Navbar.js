@@ -7,9 +7,12 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch,useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { auth, provider } from "../firebaseAuth"
+import { signInWithPopup, signOut } from "firebase/auth"
 
 function Navbar() {
 
@@ -32,7 +35,6 @@ function Navbar() {
   };
 
   const pages = ["Business", "Entertainment", "Health", "Science", "Sports", "Technology"];
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -41,11 +43,60 @@ function Navbar() {
     dispatch({ type: "SET_CATEGORY", payload: page })
     handleCloseNavMenu();
     navigate(`/${page}`)
-
   }
+
+  const [user, setUser] = useState({
+    email: "",
+    name: "",
+    userImg: ""
+  });
+
+
+  const handelLogin = () => {
+    signInWithPopup(auth, provider).then((data) => {
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("userName", data.user.displayName);
+      localStorage.setItem("userImg", data.user.photoURL);
+      localStorage.setItem("user", true);
+      window.location.reload();
+    })
+      .catch((err) => {
+
+      })
+    
+  }
+
+  const handelLogout = () => {
+    signOut(auth)
+      .then(() => {
+        localStorage.setItem("user", false);
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userImg");
+        window.location.reload();
+      })
+    handleCloseUserMenu();
+    
+  }
+  useEffect(() => {
+    // Check if there is any user data stored in local storage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser === "true") {
+      // User is logged in, retrieve the user data and update the state
+      const storedEmail = localStorage.getItem("userEmail");
+      const storedName = localStorage.getItem("userName");
+      const storedUserImg = localStorage.getItem("userImg");
+      setUser({
+        email: storedEmail,
+        name: storedName,
+        userImg: storedUserImg
+      });
+    }
+  }, []);
+  let userAuth = localStorage.getItem("user") === "true";
   return (
     <>
-      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column",position:"fixed" }} position="static">
+      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column", position: "fixed" }} position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -125,7 +176,7 @@ function Navbar() {
                 <Button
                   key={page}
                   onClick={() => {
-                   handlePages(page)
+                    handlePages(page)
                   }
                   }
                   sx={{ my: 2, color: 'white', display: 'block' }}
@@ -138,7 +189,7 @@ function Navbar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="emy Sharp" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
+                  <Avatar alt="emy Sharp" src={user.userImg} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -157,14 +208,29 @@ function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+
+                <MenuItem onClick={handleCloseUserMenu}>
+                  {
+                    userAuth === true
+                      ?
+                      <Typography onClick={handelLogout} textAlign="center">
+                        Logout
+                      </Typography>
+                      :
+                      <Typography onClick={handelLogin} textAlign="center">
+                        Login
+                      </Typography>
+                  }
+                </MenuItem>
+
+
               </Menu>
             </Box>
+            <Typography style={{ paddingLeft: "10px",fontWeight:"bold" }}>
+              {user.name}
+            </Typography>
           </Toolbar>
+
         </Container>
       </AppBar>
       <Outlet />
