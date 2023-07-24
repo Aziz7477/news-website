@@ -96,7 +96,7 @@ function Navbar() {
   let userAuth = localStorage.getItem("user") === "true";
   return (
     <>
-      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column", position: "fixed" }} position="static">
+      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column", position: "fixed",zIndex: 1 }} position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography

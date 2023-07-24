@@ -1,10 +1,22 @@
 
 import { Card, CardHeader, CardMedia, Typography, CardContent, Box, Button } from "@mui/material";
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function Home() {
     const articles = useSelector((state) => state.articles);
     const categories = useSelector((state) => state.categories);
+
+    useEffect(() => {
+        window.scrollTo({
+            top:0,
+            left:0,
+            behavior:"smooth"
+        });
+      }, [categories]);
+
     return (
         <>
             <div style={{
@@ -23,16 +35,17 @@ function Home() {
                         articles.map((article) => {
                             return (
                                 <>
-                                    <Card sx={{ maxWidth: "705px", marginBottom: 5, background: "#e1fbfd" }} >
+                                    <Card sx={{ maxWidth: "705px", marginBottom: 5, background: "#e1fbfd", position: "relative" }} >
                                         <CardHeader
-                                            title={article.source.name}
+                                            title={article.author}
                                             subheader={
                                                 <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
-                                                    <span>{new Date(article.publishedAt).toLocaleTimeString()}</span>
-                                                    <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+                                                    <span>{new Date(article.published).toLocaleTimeString()}</span>
+                                                    <span>{new Date(article.published).toLocaleDateString()}</span>
                                                 </div>
                                             }
                                         />
+                                        <TurnedInNotIcon style={{ position: "absolute", top: 10, left: 660, cursor: "pointer", fontSize: "27px" }} />
                                         <CardContent style={{ fontWeight: "bold", fontSize: "20px" }}>
                                             <Typography variant="body3" color="text.secondary">
                                                 {article.title}
@@ -44,7 +57,7 @@ function Home() {
 
                                                 component="img"
                                                 height="10%"
-                                                image={article.urlToImage}
+                                                image={article.image}
                                                 alt="Failed to load"
                                             />
                                         </Box>

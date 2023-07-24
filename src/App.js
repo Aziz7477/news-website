@@ -16,14 +16,19 @@ function App() {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.categories);
   const fetchData = () => {
+    const lowercaseCategories = categories.toLowerCase();
     fetch(
-      categories
-        ? `https://newsapi.org/v2/top-headlines?country=in&category=${categories}&apiKey=c32d03c930f14bce9c755599108f1306`
-        : "https://newsapi.org/v2/top-headlines?country=in&apiKey=c32d03c930f14bce9c755599108f1306"
+      categories ?
+      `https://api.currentsapi.services/v1/latest-news?apiKey=eJ47OiYS3zC815vMB9z19Di6uJ_EaL119FoMrS0geMROMtIR&category=${lowercaseCategories}`
+      :
+      "https://api.currentsapi.services/v1/latest-news?apiKey=eJ47OiYS3zC815vMB9z19Di6uJ_EaL119FoMrS0geMROMtIR"
+       
     )
       .then((res) => res.json())
       .then((res) => {
-        dispatch({ type: "SET_ARTICLE", payload: res.articles })
+        console.log(res.news);
+        console.log(categories);
+        dispatch({ type: "SET_ARTICLE", payload: res.news })
       })
   }
   useEffect(() => {
