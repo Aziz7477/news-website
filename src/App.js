@@ -19,9 +19,9 @@ function App() {
     const lowercaseCategories = categories.toLowerCase();
     fetch(
       categories ?
-      `https://api.currentsapi.services/v1/latest-news?apiKey=eJ47OiYS3zC815vMB9z19Di6uJ_EaL119FoMrS0geMROMtIR&category=${lowercaseCategories}`
+      `https://api.currentsapi.services/v1/latest-news?language=en&apiKey=EajOCh23TaFYeMi_1lkSNSolgquoCw4HOzzm7Mq36eDSJ06b&category=${lowercaseCategories}`
       :
-      "https://api.currentsapi.services/v1/latest-news?apiKey=eJ47OiYS3zC815vMB9z19Di6uJ_EaL119FoMrS0geMROMtIR"
+      'https://api.currentsapi.services/v1/latest-news?language=en&apiKey=EajOCh23TaFYeMi_1lkSNSolgquoCw4HOzzm7Mq36eDSJ06b'
        
     )
       .then((res) => res.json())
@@ -42,25 +42,25 @@ function App() {
       element: <Navbar />,
       children: [{
         path: "/",
-        element: <Home />
+        element: <Home cat=""/>
       },{
         path: "/business",
-        element: <Home />
+        element: <Home cat="Business" />
       }, {
         path: "/entertainment",
-        element: <Home />
+        element: <Home cat="Entertainment"/>
       }, {
         path: "/health",
-        element: <Home />
+        element: <Home cat="Health"/>
       }, {
         path: "/science",
-        element: <Home />
+        element: <Home cat="Science" />
       }, {
         path: "/sports",
-        element: <Home />
+        element: <Home cat="Sports"/>
       }, {
         path: "/technology",
-        element: <Home />
+        element: <Home cat="Technology"/>
       }
 
       ]

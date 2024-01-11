@@ -44,6 +44,10 @@ function Navbar() {
     handleCloseNavMenu();
     navigate(`/${page}`)
   }
+  const handleHeadline =()=>{
+    handleCloseNavMenu();
+    navigate("/")
+  }
 
   const [user, setUser] = useState({
     email: "",
@@ -63,7 +67,7 @@ function Navbar() {
       .catch((err) => {
 
       })
-    
+
   }
 
   const handelLogout = () => {
@@ -76,7 +80,7 @@ function Navbar() {
         window.location.reload();
       })
     handleCloseUserMenu();
-    
+
   }
   useEffect(() => {
     // Check if there is any user data stored in local storage
@@ -96,7 +100,7 @@ function Navbar() {
   let userAuth = localStorage.getItem("user") === "true";
   return (
     <>
-      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column", position: "fixed",zIndex: 1 }} position="static">
+      <AppBar sx={{ background: "#2e1f8f", display: "flex", alignItems: "flex-end", flexDirection: "column", position: "fixed", zIndex: 1 }} position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -146,6 +150,10 @@ function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
+                <MenuItem onClick={handleHeadline}>
+                  <Typography style={{ display: "flex", justifyContent: "space-around" }} textAlign="center" >Top Headlines</Typography>
+                </MenuItem>
+
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={() => handlePages(page)}>
                     <Typography style={{ display: "flex", justifyContent: "space-around" }} textAlign="center">{page}</Typography>
@@ -172,6 +180,7 @@ function Navbar() {
               NewsHub
             </Typography>
             <Box style={{ marginRight: "50px", justifyContent: "flex-end" }} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleHeadline}>Top Headlines</Button>
               {pages.map((page) => (
                 <Button
                   key={page}
@@ -226,7 +235,7 @@ function Navbar() {
 
               </Menu>
             </Box>
-            <Typography style={{ paddingLeft: "10px",fontWeight:"bold" }}>
+            <Typography style={{ paddingLeft: "10px", fontWeight: "bold" }}>
               {user.name}
             </Typography>
           </Toolbar>

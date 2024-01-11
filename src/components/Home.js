@@ -3,12 +3,14 @@ import { Card, CardHeader, CardMedia, Typography, CardContent, Box, Button } fro
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-function Home() {
+function Home({cat}) {
     const articles = useSelector((state) => state.articles);
     const categories = useSelector((state) => state.categories);
-
+    const dispatch = useDispatch();
+    dispatch({type:"SET_CATEGORY",payload:cat})
     useEffect(() => {
         window.scrollTo({
             top:0,
