@@ -1,8 +1,6 @@
 
 import { AppBar, Toolbar, Box, IconButton, Typography, Button } from "@mui/material";
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
@@ -12,10 +10,11 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { auth, provider } from "../firebaseAuth"
 import { signInWithPopup, signOut } from "firebase/auth"
+import SearchBox from "./SearchBox";
 
 function Navbar() {
 
@@ -37,52 +36,11 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
-
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
-      },
-    },
-  }));
-
   const pages = ["Business", "Entertainment", "Health", "Science", "Sports", "Technology"];
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state) => state.search)
 
   const handlePages = (page) => {
     dispatch({ type: "SET_CATEGORY", payload: page })
@@ -93,6 +51,13 @@ function Navbar() {
     handleCloseNavMenu();
     navigate("/")
   }
+  const handleSearch = (e) => {
+    let value = e.target.value;
+    dispatch({ type: "SET_SEARCH", payload: value });
+  };
+
+
+
 
   const [user, setUser] = useState({
     email: "",
@@ -128,10 +93,8 @@ function Navbar() {
 
   }
   useEffect(() => {
-    // Check if there is any user data stored in local storage
     const storedUser = localStorage.getItem("user");
     if (storedUser === "true") {
-      // User is logged in, retrieve the user data and update the state
       const storedEmail = localStorage.getItem("userEmail");
       const storedName = localStorage.getItem("userName");
       const storedUserImg = localStorage.getItem("userImg");
@@ -161,8 +124,8 @@ function Navbar() {
                 letterSpacing: '.3rem',
                 color: 'inherit',
                 textDecoration: 'none',
-                marginRight:10,
-                fontSize:29 
+                marginRight: 10,
+                fontSize: 29
               }}
             >
               NewsHub
@@ -197,15 +160,9 @@ function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                  />
-                </Search>
+                <MenuItem>
+                  <SearchBox /> 
+                </MenuItem>
                 <MenuItem onClick={handleHeadline}>
                   <Typography style={{ display: "flex", justifyContent: "space-around" }} textAlign="center" >Top Headlines</Typography>
                 </MenuItem>
@@ -235,17 +192,7 @@ function Navbar() {
             >
               NewsHub
             </Typography>
-            <Typography className="search">
-              <Search >
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-            </Typography>
+            <SearchBox />
 
             <Box style={{ marginRight: "50px", justifyContent: "flex-end" }} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
