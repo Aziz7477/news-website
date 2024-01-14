@@ -161,7 +161,7 @@ function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                <MenuItem className="small-search">
+                <MenuItem className="small-search"> 
                   <SearchBox></SearchBox>
                 </MenuItem>
                     

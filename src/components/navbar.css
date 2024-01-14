@@ -13,7 +13,6 @@
       display: none;
     }
     .small-search{
-      background-color: rgb(255, 255, 255);
-      
+      width: 200px;
     }
   }
