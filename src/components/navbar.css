@@ -1,10 +1,6 @@
 .app-bar{
     background-color: white;
 }
-.search{
-    
-}
-
 
 @media (max-width: 900px) {
     .search {
@@ -12,5 +8,12 @@
     }
     .user-name{
         font-size: 15px !important;
+    }
+    .big-search{
+      display: none;
+    }
+    .small-search{
+      background-color: rgb(255, 255, 255);
+      
     }
   }

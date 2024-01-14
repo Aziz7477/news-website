@@ -5,25 +5,35 @@ import SearchIcon from '@mui/icons-material/Search';
 function SearchBox() {
     const dispatch = useDispatch();
     const searchValue = useSelector((state) => state.search);
+    const searchBtnClicked = useSelector((state) => state.searchBtnClicked);
     const handleSearch = (e) => {
         let value = e.target.value;
         dispatch({ type: "SET_SEARCH", payload: value });
     };
-    const handleSButtonClick = () => {
-        dispatch({ type: "SET_BTN_CLICK", payload:true})
-        
+    const handleSButtonClick = (e) => {
+        dispatch({ type: "SET_BTN_CLICK", payload: searchBtnClicked + 1 });
+        if (searchValue.length > 1) {
+            dispatch({ type: "SET_ARTICLE", payload: [] })
+        }
+
+    }
+    const handleEnterKey=(e)=>{
+        if(e.key === "Enter"){
+            handleSButtonClick();
+        }
     }
 
 
     return (
-        <div className="search">
+        <>
             <Input
+            onKeyDown={handleEnterKey}
                 onChange={handleSearch}
                 placeholder="Search.."
                 value={searchValue}
                 endAdornment={
                     <InputAdornment position="end">
-                        <IconButton value={false} onClick={handleSButtonClick} aria-label="Search">
+                        <IconButton  onClick={handleSButtonClick} aria-label="Search">
                             <SearchIcon style={{ fontSize: 30, color: "white" }} />
                         </IconButton>
                     </InputAdornment>
@@ -49,7 +59,7 @@ function SearchBox() {
 
                 }}
             />
-        </div>
+        </>
     );
 }
 

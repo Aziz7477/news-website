@@ -4,7 +4,9 @@ const initialState = {
     categories: "",
     articles: [],
     search: "",
-    searchBtnClicked: false,
+    prevSearch: "",
+    searchBtnClicked: 0,
+
 }
 
 //reducer function
@@ -26,10 +28,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 search: action.payload
             };
-        case "SET_BTN_CLICK":
-            return{
+        case "PREV_SEARCH":
+            return {
                 ...state,
-                searchBtnClicked:action.payload
+                prevSearch: action.payload
+            };
+        case "SET_BTN_CLICK":
+            return {
+                ...state,
+                searchBtnClicked: action.payload
             }
         default:
             return state;

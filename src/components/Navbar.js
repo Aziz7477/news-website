@@ -1,5 +1,5 @@
 
-import { AppBar, Toolbar, Box, IconButton, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Box, IconButton, Typography, Button, Input,InputAdornment } from "@mui/material";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -45,7 +46,8 @@ function Navbar() {
   const handlePages = (page) => {
     dispatch({ type: "SET_CATEGORY", payload: page })
     handleCloseNavMenu();
-    navigate(`/${page}`)
+    navigate(`/${page}`);
+
   }
   const handleHeadline = () => {
     handleCloseNavMenu();
@@ -55,8 +57,6 @@ function Navbar() {
     let value = e.target.value;
     dispatch({ type: "SET_SEARCH", payload: value });
   };
-
-
 
 
   const [user, setUser] = useState({
@@ -75,7 +75,7 @@ function Navbar() {
       window.location.reload();
     })
       .catch((err) => {
-
+        console.log(err);
       })
 
   }
@@ -143,6 +143,7 @@ function Navbar() {
                 <MenuIcon />
               </IconButton>
               <Menu
+
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
@@ -160,13 +161,14 @@ function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                <MenuItem>
-                  <SearchBox /> 
+                <MenuItem className="small-search">
+                  <SearchBox></SearchBox>
                 </MenuItem>
+                    
+              
                 <MenuItem onClick={handleHeadline}>
                   <Typography style={{ display: "flex", justifyContent: "space-around" }} textAlign="center" >Top Headlines</Typography>
                 </MenuItem>
-
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={() => handlePages(page)}>
                     <Typography style={{ display: "flex", justifyContent: "space-around" }} textAlign="center">{page}</Typography>
@@ -178,7 +180,7 @@ function Navbar() {
               variant="h5"
               noWrap
               component="a"
-              href=""
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -192,11 +194,13 @@ function Navbar() {
             >
               NewsHub
             </Typography>
-            <SearchBox />
-
+            <Typography className="big-search">
+              <SearchBox />
+            </Typography>
+            
             <Box style={{ marginRight: "50px", justifyContent: "flex-end" }} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
-              <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleHeadline}>Top Headlines</Button>
+              <Button sx={{ my: 2, color: 'white', display: 'block' }} href="/">Top Headlines</Button>
               {pages.map((page) => (
                 <Button
                   key={page}

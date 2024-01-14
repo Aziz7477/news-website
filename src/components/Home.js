@@ -10,6 +10,7 @@ function Home({ cat }) {
     const articles = useSelector((state) => state.articles);
     const categories = useSelector((state) => state.categories);
     const searchValue = useSelector((state) => state.search);
+    const prevSearch = useSelector((state) => state.prevSearch);
     const dispatch = useDispatch();
     dispatch({ type: "SET_CATEGORY", payload: cat })
     useEffect(() => {
@@ -18,7 +19,7 @@ function Home({ cat }) {
             left: 0,
             behavior: "smooth"
         });
-    }, [categories,searchValue.length>3]);
+    }, [categories,searchValue.length>0]);
 
     return (
         <>
@@ -31,7 +32,7 @@ function Home({ cat }) {
                 padding: "5px",
                 paddingTop: "70px"
             }}>
-                <h3>{searchValue.length>3? searchValue : categories ? categories : "Top Headlines"}</h3>
+                <h3>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
                 {
                     articles && articles.length > 0
                         ?
