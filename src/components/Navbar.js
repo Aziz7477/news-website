@@ -1,5 +1,5 @@
 
-import { AppBar, Toolbar, Box, IconButton, Typography, Button, Input,InputAdornment } from "@mui/material";
+import { AppBar, Toolbar, Box, IconButton, Typography, Button} from "@mui/material";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
@@ -7,11 +7,11 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import SearchIcon from '@mui/icons-material/Search';
+
 
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 import { auth, provider } from "../firebaseAuth"
 import { signInWithPopup, signOut } from "firebase/auth"
@@ -41,7 +41,6 @@ function Navbar() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const searchValue = useSelector((state) => state.search)
 
   const handlePages = (page) => {
     dispatch({ type: "SET_CATEGORY", payload: page })
@@ -52,12 +51,7 @@ function Navbar() {
   const handleHeadline = () => {
     handleCloseNavMenu();
     navigate("/")
-  }
-  const handleSearch = (e) => {
-    let value = e.target.value;
-    dispatch({ type: "SET_SEARCH", payload: value });
-  };
-
+  } 
 
   const [user, setUser] = useState({
     email: "",
@@ -143,7 +137,7 @@ function Navbar() {
                 <MenuIcon />
               </IconButton>
               <Menu
-
+ 
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{

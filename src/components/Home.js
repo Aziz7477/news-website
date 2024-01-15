@@ -1,26 +1,42 @@
 
 import { Card, CardHeader, CardMedia, Typography, CardContent, Box, Button } from "@mui/material";
-import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Home({ cat }) {
     const articles = useSelector((state) => state.articles);
     const categories = useSelector((state) => state.categories);
     const searchValue = useSelector((state) => state.search);
     const prevSearch = useSelector((state) => state.prevSearch);
+    const saveNews = useSelector((state) => state.saveNews);
     const dispatch = useDispatch();
     dispatch({ type: "SET_CATEGORY", payload: cat })
+
+    const [isClicked,SetIsClicked] = useState(false);
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
             left: 0,
             behavior: "smooth"
         });
-    }, [categories,searchValue.length>0]);
+    }, [categories, searchValue.length > 0]);
+    const HandleClicked=()=>{
+        SetIsClicked(true)
+        dispatch({type:"SET_ARTICLE",payload:saveNews})
+    }
 
+    const handleSaveNews = (article) => {
+        dispatch({ type: "SET_SAVENEWS", payload: article });
+    }
+    console.log(saveNews);
+    console.log(isClicked);
+    console.log(articles); 
     return (
         <>
             <div style={{
@@ -32,7 +48,22 @@ function Home({ cat }) {
                 padding: "5px",
                 paddingTop: "70px"
             }}>
-                <h3>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
+                <div className="heading" style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width:"70vh"
+
+                }}>
+                    <div>bgfbgfbfgbHi</div>
+                    <h3 style={{}}>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
+                    <div style={{display:"flex",justifyContent:"center",alignItems:"center", fontWeight:"bold",cursor:"pointer",color:"#7126ff"}}>
+                        <BookmarksIcon style={{fontSize:"35px"}} onClick={HandleClicked}></BookmarksIcon>
+                        SAVE NEWS
+                    </div>
+                    
+                </div>
+
                 {
                     articles && articles.length > 0
                         ?
@@ -41,8 +72,10 @@ function Home({ cat }) {
                                 <>
                                     <Card sx={{ maxWidth: "705px", marginBottom: 5, background: "#e1fbfd", position: "relative" }} >
                                         <Typography style={{ display: "flex", justifyContent: "space-between" }}>
-                                            <CardHeader style={{ paddingBottom: 5}} title={<Typography sx={{ fontWeight:"bold",fontSize:25 }}>{article.author}</Typography>} />
-                                            <TurnedInNotIcon style={{ marginTop: 10, marginRight: 10, cursor: "pointer", fontSize: "33px" }} />
+                                            <CardHeader style={{ paddingBottom: 5 }} title={<Typography sx={{ fontWeight: "bold", fontSize: 25 }}>{article.author}</Typography>} />
+                                            <div onClick={() => handleSaveNews(article)}>
+                                                <BookmarkBorderIcon style={{ marginTop: 10, marginRight: 10, cursor: "pointer", fontSize: "33px" }} />
+                                            </div>
                                         </Typography>
 
                                         <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>

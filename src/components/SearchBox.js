@@ -1,6 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
+
 import { InputAdornment, Input, IconButton } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+
+import { useDispatch, useSelector } from "react-redux";
 
 function SearchBox() {
     const dispatch = useDispatch();
@@ -17,8 +19,8 @@ function SearchBox() {
         }
 
     }
-    const handleEnterKey=(e)=>{
-        if(e.key === "Enter"){
+    const handleEnterKey = (e) => {
+        if (e.key === "Enter") {
             handleSButtonClick();
         }
     }
@@ -27,13 +29,13 @@ function SearchBox() {
     return (
         <>
             <Input
-            onKeyDown={handleEnterKey}
+                onKeyDown={handleEnterKey}
                 onChange={handleSearch}
                 placeholder="Search.."
                 value={searchValue}
                 endAdornment={
                     <InputAdornment position="end">
-                        <IconButton  onClick={handleSButtonClick} aria-label="Search">
+                        <IconButton onClick={handleSButtonClick} aria-label="Search">
                             <SearchIcon style={{ fontSize: 30, color: "white" }} />
                         </IconButton>
                     </InputAdornment>

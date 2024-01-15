@@ -6,6 +6,7 @@ const initialState = {
     search: "",
     prevSearch: "",
     searchBtnClicked: 0,
+    saveNews:[]
 
 }
 
@@ -37,6 +38,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchBtnClicked: action.payload
+            }
+        case "SET_SAVENEWS":
+            return{
+                ...state,
+                saveNews: [...state.saveNews, action.payload]
             }
         default:
             return state;
