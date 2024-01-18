@@ -17,7 +17,7 @@ function Home({ cat }) {
     const dispatch = useDispatch();
     dispatch({ type: "SET_CATEGORY", payload: cat })
 
-    const [isClicked,SetIsClicked] = useState(false);
+    const [isClicked, SetIsClicked] = useState(false);
 
     useEffect(() => {
         window.scrollTo({
@@ -26,9 +26,9 @@ function Home({ cat }) {
             behavior: "smooth"
         });
     }, [categories, searchValue.length > 0]);
-    const HandleClicked=()=>{
+    const HandleClicked = () => {
         SetIsClicked(true)
-        dispatch({type:"SET_ARTICLE",payload:saveNews})
+        dispatch({ type: "SET_ARTICLE", payload: saveNews })
     }
 
     const handleSaveNews = (article) => {
@@ -36,33 +36,47 @@ function Home({ cat }) {
     }
     console.log(saveNews);
     console.log(isClicked);
-    console.log(articles); 
+    console.log(articles);
     return (
         <>
-            <div style={{
-
+            <Typography sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
                 padding: "5px",
-                paddingTop: "70px"
+                paddingTop: "70px",
+                '@media (max-width: 900px)': {
+                    paddingTop:"50px",
+                }
             }}>
-                <div className="heading" style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width:"70vh"
+                <Card sx={{
+                    maxWidth: "705px",
+                    minWidth: "600px",
+                    position: "relative",
+                    borderRadius: 0,
+                    boxShadow: 'none',
+                    '@media (max-width: 900px)': {
+                        minWidth: "500px",
+                        
+                    }
+                }} >
+                    <CardContent sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        border: 0,
 
-                }}>
-                    <div>bgfbgfbfgbHi</div>
-                    <h3 style={{}}>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
-                    <div style={{display:"flex",justifyContent:"center",alignItems:"center", fontWeight:"bold",cursor:"pointer",color:"#7126ff"}}>
-                        <BookmarksIcon style={{fontSize:"35px"}} onClick={HandleClicked}></BookmarksIcon>
-                        SAVE NEWS
-                    </div>
-                    
-                </div>
+                    }}>
+                        <h3 style={{ marginLeft: "35%" }}>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold", cursor: "pointer", color: "#7126ff" }}>
+                            <BookmarksIcon style={{ fontSize: "35px" }} onClick={HandleClicked}></BookmarksIcon>
+                            SAVED NEWS
+                        </div>
+                    </CardContent>
+
+
+                </Card>
 
                 {
                     articles && articles.length > 0
@@ -120,7 +134,7 @@ function Home({ cat }) {
                         :
                         <img style={{ width: 50, paddingTop: 300 }} src="https://i.stack.imgur.com/kOnzy.gif" alt="" />
                 }
-            </div>
+            </Typography>
         </>
 
     )

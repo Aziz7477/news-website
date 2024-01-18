@@ -1,21 +1,21 @@
-.app-bar{
-    background-color: white;
+.app-bar {
+  background-color: white;
 }
 
 @media (max-width: 900px) {
-    .search {
-      display: none;
-    }
-    .user-name{
-        font-size: 15px !important;
-    }
-    .big-search{
-      display: none;
-    }
-    .small-search{
-      width: 200px;
-    }
-    .heading{
-      width: 0px;
-    }
+  .search {
+    display: none;
   }
+
+  .user-name {
+    font-size: 15px !important;
+  }
+
+  .big-search {
+    display: none;
+  }
+
+  .small-search {
+    width: 200px;
+  }
+}
