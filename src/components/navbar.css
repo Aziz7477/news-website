@@ -1,6 +1,9 @@
 .app-bar {
   background-color: white;
 }
+.h3{
+  margin-left:40%
+}
 
 @media (max-width: 900px) {
   .search {
@@ -17,5 +20,8 @@
 
   .small-search {
     width: 200px;
+  }
+  .h3{
+    margin-left: 0
   }
 }

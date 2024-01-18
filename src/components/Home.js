@@ -57,20 +57,21 @@ function Home({ cat }) {
                     borderRadius: 0,
                     boxShadow: 'none',
                     '@media (max-width: 900px)': {
-                        minWidth: "400px",
+                        minWidth: "40px",
+                        width: "100%", 
                         
                     }
                 }} >
                     <CardContent sx={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent:"space-evenly",
                         alignItems: "center",
                         border: 0,
-
+                        
                     }}>
-                        <h3 style={{ marginLeft: "35%" }}>{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold", cursor: "pointer", color: "#7126ff" }}>
-                            <BookmarksIcon style={{ fontSize: "35px" }} onClick={HandleClicked}></BookmarksIcon>
+                        <h3 className="h3">{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
+                        <div onClick={HandleClicked} style={{ display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold", cursor: "pointer", color: "#7126ff" }}>
+                            <BookmarksIcon style={{ fontSize: "35px" }} ></BookmarksIcon>
                             SAVED NEWS
                         </div>
                     </CardContent>
