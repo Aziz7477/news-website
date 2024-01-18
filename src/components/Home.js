@@ -57,7 +57,7 @@ function Home({ cat }) {
                     borderRadius: 0,
                     boxShadow: 'none',
                     '@media (max-width: 900px)': {
-                        minWidth: "500px",
+                        minWidth: "400px",
                         
                     }
                 }} >
