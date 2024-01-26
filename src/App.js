@@ -3,10 +3,13 @@ import "./components/navbar.css"
 
 import Navbar from "./components/Navbar"
 import Home from "./components/Home"
+import SavedNews from "./components/SavedNews";
+
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 
 
 function App() {
@@ -65,6 +68,9 @@ function App() {
       }, {
         path: "/technology",
         element: <Home cat="Technology" />
+      },{
+        path:"/save-news",
+        element:<SavedNews/>
       }
 
       ]

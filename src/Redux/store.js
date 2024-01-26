@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
         case "SET_SAVENEWS":
             return{
                 ...state,
-                saveNews: [...state.saveNews, action.payload]
+                saveNews:  action.payload
             }
         default:
             return state;

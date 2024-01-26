@@ -7,6 +7,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home({ cat }) {
     const articles = useSelector((state) => state.articles);
@@ -15,9 +16,9 @@ function Home({ cat }) {
     const prevSearch = useSelector((state) => state.prevSearch);
     const saveNews = useSelector((state) => state.saveNews);
     const dispatch = useDispatch();
-    dispatch({ type: "SET_CATEGORY", payload: cat })
+    const navigate = useNavigate();
 
-    const [isClicked, SetIsClicked] = useState(false);
+    dispatch({ type: "SET_CATEGORY", payload: cat })
 
     useEffect(() => {
         window.scrollTo({
@@ -27,16 +28,32 @@ function Home({ cat }) {
         });
     }, [categories, searchValue.length > 0]);
     const HandleClicked = () => {
-        SetIsClicked(true)
-        dispatch({ type: "SET_ARTICLE", payload: saveNews })
+        navigate("/save-news")
     }
-
     const handleSaveNews = (article) => {
-        dispatch({ type: "SET_SAVENEWS", payload: article });
+        const savedArticles = JSON.parse(localStorage.getItem("saveNews")) || [];
+        console.log(savedArticles);
+        const alreadySavedArticles = savedArticles.some((sArticle) => sArticle.id === article.id)
+        if (!alreadySavedArticles) {
+            savedArticles.push(article);
+            dispatch({ type: "SET_SAVENEWS", payload: savedArticles })
+            localStorage.setItem("saveNews", JSON.stringify(savedArticles));
+
+        }
+        else if (alreadySavedArticles) {
+            const updateArticles = savedArticles.filter((sArticle) => sArticle.id !== article.id);
+            dispatch({ type: "SET_SAVENEWS", payload: savedArticles })
+            localStorage.setItem("saveNews", JSON.stringify(updateArticles));
+
+        }
+
+
     }
-    console.log(saveNews);
-    console.log(isClicked);
-    console.log(articles);
+    useEffect(() => {
+
+
+    }, [saveNews]);
+
     return (
         <>
             <Typography sx={{
@@ -47,27 +64,27 @@ function Home({ cat }) {
                 padding: "5px",
                 paddingTop: "70px",
                 '@media (max-width: 900px)': {
-                    paddingTop:"50px",
+                    paddingTop: "50px",
                 }
             }}>
                 <Card sx={{
                     maxWidth: "705px",
-                    minWidth: "600px",
+                    minWidth: "800px",
                     position: "relative",
                     borderRadius: 0,
                     boxShadow: 'none',
                     '@media (max-width: 900px)': {
                         minWidth: "40px",
-                        width: "100%", 
-                        
+                        width: "100%",
+
                     }
                 }} >
                     <CardContent sx={{
                         display: "flex",
-                        justifyContent:"space-evenly",
+                        justifyContent: "space-evenly",
                         alignItems: "center",
                         border: 0,
-                        
+
                     }}>
                         <h3 className="h3">{prevSearch ? prevSearch.toUpperCase() : categories ? categories : "Top Headlines"}</h3>
                         <div onClick={HandleClicked} style={{ display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold", cursor: "pointer", color: "#7126ff" }}>
